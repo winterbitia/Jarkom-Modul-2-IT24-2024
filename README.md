@@ -150,4 +150,119 @@ iface eth0 inet static
 
 ## Soal 2
 
-### Script Solok
+### Script Solok (sudarsana.it24.com)
+
+```
+echo 'zone "sudarsana.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/jarkom/sudarsana.it24.com";
+};' > /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/sudarsana.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     sudarsana.it24.com. root.sudarsana.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      sudarsana.it24.com.
+@       IN      A       192.245.3.1     ; IP Solok
+www     IN      CNAME   sudarsana.it24.com.' > /etc/bind/jarkom/sudarsana.it24.com
+
+service bind9 restart
+```
+
+## Soal 3
+
+### Script Kotalingga (pasopati.it24.com)
+
+```
+echo 'zone "pasopati.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/jarkom/pasopati.it24.com";
+};' >> /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/pasopati.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it24.com. root.pasopati.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      pasopati.it24.com.
+@       IN      A       192.245.2.3     ; IP Kotalingga
+www     IN      CNAME   pasopati.it24.com.' > /etc/bind/jarkom/pasopati.it24.com
+
+service bind9 restart
+```
+
+## Soal 4
+
+### Script Tanjungkulai (rujapala.it24.com)
+
+```
+echo 'zone "rujapala.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/jarkom/rujapala.it24.com";
+};' >> /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/rujapala.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     rujapala.it24.com. root.rujapala.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      rujapala.it24.com.
+@       IN      A       192.245.1.3     ; IP Tanjungkulai
+www     IN      CNAME   rujapala.it24.com.' > /etc/bind/jarkom/rujapala.it24.com
+
+service bind9 restart
+```
+
+## Soal 5
+
+### Sanjaya
+
+![Sanjaya](assets/gallery/5_1.png)
+
+### Jayanegara
+
+![Jayanegara](assets/gallery/5_2.png)
+
+### Anusapati
+
+![Anusapati](assets/gallery/5_3.png)
+
+## Soal 6
+
