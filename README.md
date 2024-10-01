@@ -5,7 +5,7 @@
 |Amoes Noland|5027231028|
 |Radella Chesa Syaharani|5027231064|
 
-- [Soal 1](Soal_1)
+- [Soal 1](#soal-1)
 
 ## Script Umum
 
