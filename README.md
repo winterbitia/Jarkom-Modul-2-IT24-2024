@@ -5,6 +5,33 @@
 |Amoes Noland|5027231028|
 |Radella Chesa Syaharani|5027231064|
 
+## Script Umum
+
+### Nusantara (Router)
+
+```
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.245.0.0/16
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+echo End of script
+```
+
+### Sriwijaya, Mahapahit (DNS Master/Slave)
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt update
+apt install bind9 -y
+echo End of script
+```
+
+### Sanjaya, Jayanegara, Anusapati (Clients)
+
+```
+echo nameserver 192.245.1.1 > /etc/resolv.conf
+echo End of script
+```
+
+
 ## Soal 1
 
 ### Nusantara (Router)
@@ -118,3 +145,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 192.245.3.2
 ```
+
+## Soal 2
+
+### Script Solok
