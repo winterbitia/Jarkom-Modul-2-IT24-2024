@@ -5,6 +5,8 @@
 |Amoes Noland|5027231028|
 |Radella Chesa Syaharani|5027231064|
 
+## Daftar Soal
+
 - [Soal 1](#soal-1)
 - [Soal 2](#soal-2)
 - [Soal 3](#soal-3)
@@ -14,6 +16,7 @@
 - [Soal 7](#soal-7)
 - [Soal 8](#soal-8)
 - [Soal 9](#soal-9)
+- [Soal 10](#soal-10)
 
 ## Script Umum
 
@@ -411,3 +414,137 @@ service bind9 restart
 ```
 
 ## Soal 9
+
+### Modifikasi Script Pasopati untuk Subdomain
+
+```sh
+echo 'zone "pasopati.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/jarkom/pasopati.it24.com";
+};' >> /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/pasopati.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it24.com. root.pasopati.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      pasopati.it24.com.
+@       IN      A       192.245.2.3     ; IP Kotalingga
+www     IN      CNAME   pasopati.it24.com.
+ns1		IN		A		192.245.2.1		; delegasi IP Majapahit
+panah	IN		NS		ns1				; subdomain IP delegasi'> /etc/bind/jarkom/pasopati.it24.com
+
+service bind9 restart
+```
+
+### Script Subdomain Delegasi Panah
+
+```sh
+echo 'zone "panah.pasopati.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/panah/panah.pasopati.it24.com";
+};' >> /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/panah
+
+cp /etc/bind/db.local /etc/bind/panah/panah.pasopati.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     panah.pasopati.it24.com. root.panah.pasopati.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      panah.pasopati.it24.com.
+@       IN      A       192.245.2.3     ; IP Kotalingga
+www     IN      CNAME   panah.pasopati.it24.com.'> /etc/bind/panah/panah.pasopati.it24.com
+
+service bind9 restart
+```
+
+### Modifikasi script untuk named.conf.local (DNS Master)
+
+```sh
+echo '
+options {
+	directory "/var/cache/bind";
+	allow-query { any; };
+	auth-nxdomain no; #conform to RFC1035
+	listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+echo 'zone "sudarsana.it24.com" {
+    type master;
+    notify yes;
+    also-notify { 192.245.2.1; };
+    allow-transfer { 192.245.2.1; };
+    file "/etc/bind/jarkom/sudarsana.it24.com";
+};
+zone "pasopati.it24.com" {
+    type master;
+    notify yes;
+    also-notify { 192.245.2.1; };
+    allow-transfer { 192.245.2.1; };
+    file "/etc/bind/jarkom/pasopati.it24.com";
+};
+zone "rujapala.it24.com" {
+    type master;
+    notify yes;
+    also-notify { 192.245.2.1; };
+    allow-transfer { 192.245.2.1; };
+    file "/etc/bind/jarkom/rujapala.it24.com";
+};
+zone "2.245.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/jarkom/2.245.192.in-addr.arpa";
+};' > /etc/bind/named.conf.local
+```
+
+### Modifikasi script untuk named.conf.local (DNS Slave)
+
+```sh
+echo '
+options {
+	directory "/var/cache/bind";
+	allow-query { any; };
+	auth-nxdomain no; #conform to RFC1035
+	listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+echo 'zone "sudarsana.it24.com" {
+    type slave;
+    masters { 192.245.1.1; };
+    file "/etc/bind/jarkom/sudarsana.it24.com";
+};
+zone "pasopati.it24.com" {
+    type slave;
+    masters { 192.245.1.1; };
+    file "/etc/bind/jarkom/pasopati.it24.com";
+};
+zone "rujapala.it24.com" {
+    type slave;
+    masters { 192.245.1.1; };
+    file "/etc/bind/jarkom/rujapala.it24.com";
+};' > /etc/bind/named.conf.local
+```
+
+## Soal 10
