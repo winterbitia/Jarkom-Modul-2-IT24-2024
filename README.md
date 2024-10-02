@@ -16,7 +16,7 @@
 
 ### Nusantara (Router)
 
-```
+```sh
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.245.0.0/16
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 echo End of script
@@ -24,7 +24,7 @@ echo End of script
 
 ### Sriwijaya, Mahapahit (DNS Master/Slave)
 
-```
+```sh
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 apt update
 apt install bind9 -y
@@ -33,7 +33,7 @@ echo End of script
 
 ### Sanjaya, Jayanegara, Anusapati (Clients)
 
-```
+```sh
 echo nameserver 192.245.1.1 > /etc/resolv.conf
 echo End of script
 ```
@@ -157,7 +157,7 @@ iface eth0 inet static
 
 ### Script Solok (sudarsana.it24.com)
 
-```
+```sh
 echo 'zone "sudarsana.it24.com" {
     type master;
     notify yes;
@@ -191,7 +191,7 @@ service bind9 restart
 
 ### Script Kotalingga (pasopati.it24.com)
 
-```
+```sh
 echo 'zone "pasopati.it24.com" {
     type master;
     notify yes;
@@ -225,7 +225,7 @@ service bind9 restart
 
 ### Script Tanjungkulai (rujapala.it24.com)
 
-```
+```sh
 echo 'zone "rujapala.it24.com" {
     type master;
     notify yes;
@@ -271,3 +271,41 @@ service bind9 restart
 
 ## Soal 6
 
+### Script Reverse DNS Kotalingga
+
+```sh
+echo 'zone "2.245.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/jarkom/2.245.192.in-addr.arpa";
+};' >> /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/2.245.192.in-addr.arpa
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it24.com. root.pasopati.it24.com. (
+                        2024100201         ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+2.245.192.in-addr.arpa.      IN      NS      pasopati.it24.com.
+3                            IN      PTR     pasopati.it24.com.' > /etc/bind/jarkom/2.245.192.in-addr.arpa
+
+service bind9 restart
+```
+
+### Modifikasi pada Client script
+
+```sh
+echo nameserver 192.245.1.1 > /etc/resolv.conf
+apt update
+apt install dnsutils -y
+echo End of script
+```
