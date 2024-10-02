@@ -416,7 +416,7 @@ service bind9 restart
 
 ## Soal 9
 
-### Modifikasi Script Pasopati untuk Subdomain
+### Modifikasi Script Pasopati untuk Subdomain (Sriwijaya)
 
 ```sh
 echo 'zone "pasopati.it24.com" {
@@ -450,7 +450,7 @@ panah	IN		NS		ns1				; subdomain IP delegasi'> /etc/bind/jarkom/pasopati.it24.co
 service bind9 restart
 ```
 
-### Script Subdomain Delegasi Panah
+### Script Subdomain Delegasi Panah (Majapahit)
 
 ```sh
 echo 'zone "panah.pasopati.it24.com" {
