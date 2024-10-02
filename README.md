@@ -11,6 +11,8 @@
 - [Soal 4](#soal-4)
 - [Soal 5](#soal-5)
 - [Soal 6](#soal-6)
+- [Soal 7](#soal-7)
+- [Soal 8](#soal-8)
 
 ## Script Umum
 
@@ -309,3 +311,67 @@ apt update
 apt install dnsutils -y
 echo End of script
 ```
+
+## Soal 7
+
+### Script untuk named.conf.local (DNS Master)
+
+```sh
+echo 'zone "sudarsana.it24.com" {
+    type master;
+    notify yes;
+    also-notify { 192.245.2.1; };
+    allow-transfer { 192.245.2.1; };
+    file "/etc/bind/jarkom/sudarsana.it24.com";
+};
+zone "pasopati.it24.com" {
+    type master;
+    notify yes;
+    also-notify { 192.245.2.1; };
+    allow-transfer { 192.245.2.1; };
+    file "/etc/bind/jarkom/pasopati.it24.com";
+};
+zone "rujapala.it24.com" {
+    type master;
+    notify yes;
+    also-notify { 192.245.2.1; };
+    allow-transfer { 192.245.2.1; };
+    file "/etc/bind/jarkom/rujapala.it24.com";
+};
+zone "2.245.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/jarkom/2.245.192.in-addr.arpa";
+};' > /etc/bind/named.conf.local
+```
+
+### Script untuk named.conf.local (DNS Slave)
+
+```sh
+echo 'zone "sudarsana.it24.com" {
+    type slave;
+    masters { 192.245.1.1; };
+    file "/etc/bind/jarkom/sudarsana.it24.com";
+};
+zone "pasopati.it24.com" {
+    type slave;
+    masters { 192.245.1.1; };
+    file "/etc/bind/jarkom/pasopati.it24.com";
+};
+zone "rujapala.it24.com" {
+    type slave;
+    masters { 192.245.1.1; };
+    file "/etc/bind/jarkom/rujapala.it24.com";
+};' > /etc/bind/named.conf.local
+```
+
+### Modifikasi pada Client script
+
+```sh
+echo nameserver 192.245.1.1 > /etc/resolv.conf # Master
+echo nameserver 192.245.2.1 >> /etc/resolv.conf # Slave
+apt update
+apt install dnsutils -y
+echo End of script
+```
+
+## Soal 8
