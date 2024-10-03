@@ -849,4 +849,4 @@ service nginx restart
 ![IP-Hash](assets/gallery/ip_hash.png)
 
 ### Analisis
-**Least Connection** memberikan performa jauh lebih baik dengan jumlah gagal paling sedikit, transfer rate tertinggi, dan waktu respon paling cepat, karena mendistribusikan beban berdasarkan jumlah koneksi aktif pada server. 
+**Least Connections** terbukti memberikan performa terbaik dengan jumlah *failed request* paling sedikit, *transfer rate* tertinggi, dan *time per request* paling cepat, karena algoritma ini mendistribusikan beban berdasarkan jumlah koneksi aktif di server. **Round Robin** menunjukkan performa yang cukup baik, namun masih kalah dalam menangani beban yang tidak merata dibandingkan **Least Connections**. Sementara, **IP Hash** menghasilkan performa terburuk dengan tingkat kegagalan tertinggi dan waktu respon paling lambat, menunjukkan bahwa algoritma ini kurang ideal untuk lingkungan dengan beban dinamis.
