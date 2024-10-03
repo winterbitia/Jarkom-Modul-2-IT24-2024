@@ -199,6 +199,8 @@ service bind9 restart
 ```
 
 ## Soal 3
+Para pasukan juga perlu mengetahui mana titik yang akan diserang, sehingga dibutuhkan domain lain yaitu **pasopati.xxxx.com** dengan alias **www.pasopati.xxxx.com** yang **mengarah ke Kotalingga**.
+
 
 ### Script Kotalingga (pasopati.it24.com)
 
@@ -233,6 +235,8 @@ service bind9 restart
 ```
 
 ## Soal 4
+Markas pusat meminta dibuatnya domain khusus untuk menaruh informasi persenjataan dan suplai yang tersebar. Informasi dan suplai meme terbaru tersebut **mengarah ke Tanjungkulai** dan domain yang ingin digunakan adalah **rujapala.xxxx.com** dengan alias **www.rujapala.xxxx.com**.
+
 
 ### Script Tanjungkulai (rujapala.it24.com)
 
@@ -267,6 +271,7 @@ service bind9 restart
 ```
 
 ## Soal 5
+Pastikan domain-domain tersebut dapat diakses oleh **seluruh komputer (client)** yang berada di **Nusantara**.
 
 ### Sanjaya
 
@@ -281,7 +286,7 @@ service bind9 restart
 ![Anusapati](assets/gallery/5_3.png)
 
 ## Soal 6
-
+Beberapa daerah memiliki keterbatasan yang menyebabkan hanya dapat mengakses domain secara langsung melalui **alamat IP** domain tersebut. Karena daerah tersebut tidak diketahui secara spesifik, pastikan semua komputer (client) dapat mengakses domain **pasopati.xxxx.com** melalui **alamat IP Kotalingga** (Notes: menggunakan pointer record).
 ### Script Reverse DNS Kotalingga
 
 ```sh
@@ -322,6 +327,7 @@ echo End of script
 ```
 
 ## Soal 7
+Akhir-akhir ini seringkali terjadi **serangan brainrot** ke DNS Server Utama, sebagai tindakan antisipasi kamu diperintahkan untuk membuat **DNS Slave di Majapahit** untuk semua domain yang sudah dibuat sebelumnya yang mengarah ke **Sriwijaya**.
 
 ### Script untuk named.conf.local (DNS Master)
 
@@ -384,6 +390,7 @@ echo End of script
 ```
 
 ## Soal 8
+Kamu juga diperintahkan untuk membuat subdomain khusus melacak kekuatan tersembunyi **di Ohio** dengan subdomain **cakra.sudarsana.xxxx.com** yang mengarah ke Bedahulu.
 
 ### Modifikasi Script Sudarsana untuk Subdomain
 
@@ -419,6 +426,7 @@ service bind9 restart
 ```
 
 ## Soal 9
+Karena terjadi serangan DDOS oleh shikanoko nokonoko koshitantan (NUN), sehingga sistem komunikasinya terhalang. Untuk melindungi warga, kita diperlukan untuk membuat sistem peringatan dari siren man oleh Frekuensi Freak dan memasukkannya ke subdomain **panah.pasopati.xxxx.com** dalam folder panah dan pastikan dapat diakses secara mudah dengan menambahkan alias **www.panah.pasopati.xxxx.com** dan mendelegasikan subdomain tersebut ke **Majapahit** dengan alamat IP menuju radar di **Kotalingga**.
 
 ### Modifikasi Script Pasopati untuk Subdomain (Sriwijaya)
 
@@ -553,6 +561,7 @@ zone "rujapala.it24.com" {
 ```
 
 ## Soal 10
+Markas juga meminta catatan kapan saja meme brain rot akan dijatuhkan, maka buatlah subdomain baru di subdomain panah yaitu **log.panah.pasopati.xxxx.com** serta aliasnya **www.log.panah.pasopati.xxxx.com** yang juga mengarah ke **Kotalingga**.
 
 ### Modifikasi Script Subdomain Delegasi Panah
 
@@ -589,7 +598,7 @@ service bind9 restart
 ```
 
 ## Soal 11
-
+Setelah pertempuran mereda, warga IT dapat kembali mengakses jaringan luar dan menikmati meme brainrot terbaru, tetapi **hanya** warga **Majapahit** saja yang dapat mengakses jaringan luar secara **langsung**. Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar **melalui** DNS Server **Majapahit**.
 ### Modifikasi script untuk named.conf.local (Majapahit)
 
 ```sh
@@ -628,7 +637,7 @@ zone "rujapala.it24.com" {
 ![ping google.com](assets/gallery/11_1.png)
 
 ## Soal 12
-
+Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada **Kotalingga** menggunakan **apache**.
 ### Modifikasi pada Client script
 
 ```sh
@@ -673,6 +682,7 @@ service apache2 restart
 ```
 
 ## Soal 13
+Karena Sriwijaya dan Majapahit memenangkan pertempuran ini dan memiliki banyak uang dari hasil penjarahan (sebanyak 35 juta, belum dipotong pajak) maka pusat meminta kita memasang load balancer untuk membagikan uangnya pada web nya, dengan **Kotalingga, Bedahulu, Tanjungkulai** sebagai worker dan **Solok** sebagai **Load Balancer** menggunakan apache sebagai web server nya dan load balancer nya.
 
 ### Script Load Balancer Solok (Apache)
 
@@ -724,7 +734,7 @@ service apache2 restart
 ```
 
 ## Soal 14
-
+Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya **diubah menjadi nginx**.
 ### Script Web Server (web-nginx.sh)
 
 ```sh
