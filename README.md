@@ -677,3 +677,50 @@ service apache2 restart
 
 ## Soal 13
 
+### Script Load Balancer Solok
+
+```sh
+apt update
+apt install apache2 -y
+
+a2enmod proxy
+a2enmod proxy_balancer
+a2enmod proxy_http
+a2enmod lbmethod_byrequests
+
+echo '
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+<VirtualHost *:80>
+    <Proxy balancer://mycluster>
+        BalancerMember http://192.245.1.3
+        BalancerMember http://192.245.2.4
+        BalancerMember http://192.245.2.3
+        ProxySet lbmethod=byrequests
+    </Proxy>
+
+    ProxyPass / balancer://mycluster/
+    ProxyPassReverse / balancer://mycluster/
+
+</VirtualHost>
+' > /etc/apache2/sites-available/000-default.conf
+
+service apache2 restart
+```
+
+### Script Web Server (web.sh)
+
+```sh
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt update
+apt install apache2 libapache2-mod-php7.0 php wget unzip -y
+
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
+
+unzip lb.zip -d lb
+rm /var/www/html/index.html
+cp lb/worker/index.php /var/www/html/index.php
+
+service apache2 restart
+```
