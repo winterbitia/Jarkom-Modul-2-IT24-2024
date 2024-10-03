@@ -993,23 +993,26 @@ wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1JGk
 
 unzip -o dir-listing.zip -d /var/www/jarkom/
 
-# echo '
-# server {
-#     listen 80;
-#     server_name sekianterimakasih.it24.com www.sekianterimakasih.it24.com;
+echo '
+server {
+    listen 80;
+    server_name sekianterimakasih.it24.com www.sekianterimakasih.it24.com;
 
-#     root /var/www/jarkom;
-#     index index.php index.html index.htm;
+    root /var/www/jarkom;
+    index index.php index.html index.htm;
 
-#     location /dir-listing {
-#         alias /var/www/jarkom/dir-listing/worker2;
-#         autoindex on;
-#     }
+    location / {
+        alias /var/www/jarkom/dirlisting/worker2;
+        autoindex on;
+        autoindex_exact_size off;
+        autoindex_format html;
+        autoindex_localtime on;
+    }
 
-#     error_log /var/log/nginx/error.log;
-#     access_log /var/log/nginx/access.log;
-# }
-# ' > /etc/nginx/sites-enabled/jarkom
+    error_log /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+}
+' > /etc/nginx/sites-enabled/jarkom
 
 service nginx restart
 ```
