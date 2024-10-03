@@ -812,3 +812,31 @@ Markas pusat meminta **laporan hasil benchmark** dengan menggunakan apache bench
 - Grafik request per second untuk masing masing algoritma. 
 - Analisis
 - Meme terbaik kalian (terserah ( ͡° ͜ʖ ͡°)) 🤓
+
+### Script Load Balancer Solok (Nginx)
+```sh
+apt update
+apt install nginx -y
+
+echo '
+#load-balancer method
+upstream webserver  {
+    server 192.245.1.3;
+    server 192.245.1.4;
+    server 192.245.2.3;
+}
+
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://webserver;
+    }
+}' > /etc/nginx/sites-available/solok
+
+ln -s /etc/nginx/sites-available/solok /etc/nginx/sites-enabled/solok
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
