@@ -832,11 +832,11 @@ Untuk mencari algoritma terbaik bisa dilihat disini: [Mencari Algoritma Terbaik]
 ### Laporan Benchmark
 
 #### Bedahulu
-[Bedahulu](assets/gallery/bedahulu.png)
+![Bedahulu](assets/gallery/bedahulu.png)
 #### Kotalingga
-[Kotalingga](assets/gallery/kotalingga.png)
+![Kotalingga](assets/gallery/kotalingga.png)
 #### Tanjungkulai
-[Tanjungkulai](assets/gallery/tanjungkulai.png)
+![Tanjungkulai](assets/gallery/tanjungkulai.png)
 
 ### Analisis
 Berdasarkan hasil benchmark dari web server menunjukkan bahwa **Bedahulu** dan **Tanjungkulai** memiliki performa yang lebih baik dengan throughput tinggi (*requests per second* di atas 1700) dan *latency* rendah (*time per request* antara 55-56ms), menjadikannya lebih responsif dalam menangani beban *concurrent* tinggi. Sedangkan **Kotalingga** menunjukkan performa yang lebih rendah dengan throughput 1243 request/sec dan *time per request* lebih lama (80ms), menunjukkan bahwa server ini membutuhkan optimisasi lebih lanjut untuk menandingi performa **Bedahulu** dan **Tanjungkulai**.
