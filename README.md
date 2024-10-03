@@ -690,7 +690,7 @@ echo nameserver 192.168.122.1 > /etc/resolv.conf
 <VirtualHost *:80>
     <Proxy balancer://mycluster>
         BalancerMember http://192.245.1.3
-        BalancerMember http://192.245.2.4
+        BalancerMember http://192.245.1.4
         BalancerMember http://192.245.2.3
         ProxySet lbmethod=byrequests
     </Proxy>
@@ -774,7 +774,7 @@ apt install nginx -y
 echo '
 upstream webserver  {
     server 192.245.1.3;
-    server 192.245.2.4;
+    server 192.245.1.4;
     server 192.245.2.3;
 }
 
