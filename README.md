@@ -840,3 +840,6 @@ rm /etc/nginx/sites-enabled/default
 
 service nginx restart
 ```
+
+#### Round Robin
+![Anusapati](assets/gallery/rr.png.png)
