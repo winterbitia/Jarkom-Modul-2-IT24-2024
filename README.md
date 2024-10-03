@@ -654,12 +654,13 @@ cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/pa
 echo '
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/pasopati.it24.com
+    DocumentRoot /var/www/html
     ServerName pasopati.it24.com
     ServerAlias www.pasopati.it24.com
 </VirtualHost>
 ' > /etc/apache2/sites-available/pasopati.it24.com.conf
 
+service apache2 start
 a2ensite pasopati.it24.com.conf
 
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
