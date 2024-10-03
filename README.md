@@ -983,3 +983,63 @@ service nginx restart
 ```
 
 ## Soal 19
+
+Mengetahui bahwa Bedahulu memiliki benchmark terbaik, maka kami memilih untuk membuat akses direktori listing di dalam web server tersebut.
+
+## Script Directory Listing Bedahulu
+
+```sh
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1JGk8b-tZgzAOnDqTx5B3F9qN6AyNs7Zy' -O dir-listing.zip
+
+unzip -o dir-listing.zip -d /var/www/jarkom/
+
+# echo '
+# server {
+#     listen 80;
+#     server_name sekianterimakasih.it24.com www.sekianterimakasih.it24.com;
+
+#     root /var/www/jarkom;
+#     index index.php index.html index.htm;
+
+#     location /dir-listing {
+#         alias /var/www/jarkom/dir-listing/worker2;
+#         autoindex on;
+#     }
+
+#     error_log /var/log/nginx/error.log;
+#     access_log /var/log/nginx/access.log;
+# }
+# ' > /etc/nginx/sites-enabled/jarkom
+
+service nginx restart
+```
+
+## Soal 20
+
+```sh
+echo 'zone "sekianterimakasih.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/jarkom/sekianterimakasih.it24.com";
+};' >> /etc/bind/named.conf.local
+
+cp /etc/bind/db.local /etc/bind/jarkom/sekianterimakasih.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     sekianterimakasih.it24.com. root.sekianterimakasih.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      sekianterimakasih.it24.com.
+@       IN      A       192.245.1.4     ; IP Bedahulu
+www     IN      CNAME   sekianterimakasih.it24.com.' > /etc/bind/jarkom/sekianterimakasih.it24.com
+
+service bind9 restart
+```
