@@ -22,6 +22,12 @@
 - [Soal 13](#soal-13)
 - [Soal 14](#soal-14)
 - [Soal 15](#soal-15)
+- [Soal 15 - Analysis](best-algorithm.md)
+- [Soal 16](#soal-16)
+- [Soal 17](#soal-17)
+- [Soal 18](#soal-18)
+- [Soal 19](#soal-19)
+- [Soal 20](#soal-20)
 
 ## Script Umum
 
