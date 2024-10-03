@@ -734,7 +734,7 @@ service apache2 restart
 ```
 
 ## Soal 14
-Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya **diubah menjadi nginx**.
+Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya **diubah menjadi nginx.
 ### Script Web Server (web-nginx.sh)
 
 ```sh
@@ -803,3 +803,11 @@ rm /etc/nginx/sites-enabled/default
 
 service nginx restart
 ```
+
+## Soal 15
+Markas pusat meminta **laporan hasil benchmark** dengan menggunakan apache benchmark dari load balancer dengan 2 web server yang berbeda tersebut dan meminta secara detail dengan ketentuan:
+- Nama Algoritma Load Balancer
+- Report hasil testing apache benchmark 
+- Grafik request per second untuk masing masing algoritma. 
+- Analisis
+- Meme terbaik kalian (terserah ( ͡° ͜ʖ ͡°)) 🤓
