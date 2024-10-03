@@ -643,7 +643,8 @@ echo End of script
 ### Script di Kotalingga
 
 ```sh
-echo nameserver 192.168.122.1 > /etc/resolv.conf
+echo nameserver 192.245.1.1 > /etc/resolv.conf # Master
+echo nameserver 192.245.2.1 >> /etc/resolv.conf # Slave
 
 apt update
 apt install apache2 libapache2-mod-php7.0 php wget unzip -y
@@ -663,7 +664,7 @@ a2ensite pasopati.it24.com.conf
 
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
 
-unzip lb.zip -d lb
+unzip -o lb.zip -d lb
 rm /var/www/html/index.html
 cp lb/worker/index.php /var/www/html/index.php
 
@@ -672,7 +673,7 @@ service apache2 restart
 
 ## Soal 13
 
-### Script Load Balancer Solok
+### Script Load Balancer Solok (Apache)
 
 ```sh
 apt update
@@ -706,14 +707,15 @@ service apache2 restart
 ### Script Web Server (web-apache.sh)
 
 ```sh
-echo nameserver 192.168.122.1 > /etc/resolv.conf
+echo nameserver 192.245.1.1 > /etc/resolv.conf # Master
+echo nameserver 192.245.2.1 >> /etc/resolv.conf # Slave
 
 apt update
 apt install apache2 libapache2-mod-php7.0 php wget unzip -y
 
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
 
-unzip lb.zip -d lb
+unzip -o lb.zip -d lb
 rm /var/www/html/index.html
 cp lb/worker/index.php /var/www/html/index.php
 
@@ -725,11 +727,68 @@ service apache2 restart
 ### Script Web Server (web-nginx.sh)
 
 ```sh
-
-echo nameserver 192.168.122.1 > /etc/resolv.conf
-
 apt update
 apt install nginx php-fpm -y
 
-echo fill in the blanks
+echo '
+server {
+    listen 80;
+
+    root /var/www/html;
+
+    index index.php index.html index.htm;
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # pass PHP scripts to FastCGI server
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    error_log /var/log/nginx/jarkom_error.log;
+    access_log /var/log/nginx/jarkom_access.log;
+}
+' > /etc/nginx/sites-available/html
+
+ln -s /etc/nginx/sites-available/html /etc/nginx/sites-enabled/html
+rm -rf /etc/nginx/sites-enabled/default
+
+service nginx restart
+service php7.0-fpm restart
+```
+
+### Script Load Balancer Solok (Nginx)
+
+```sh
+apt update
+apt install nginx -y
+
+echo '
+upstream webserver  {
+    server 192.245.1.3;
+    server 192.245.2.4;
+    server 192.245.2.3;
+}
+
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://webserver;
+    }
+}' > /etc/nginx/sites-available/solok
+
+ln -s /etc/nginx/sites-available/solok /etc/nginx/sites-enabled/solok
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
 ```
