@@ -49,7 +49,7 @@ echo End of script
 
 
 ## Soal 1
-
+Untuk mempersiapkan peperangan World War MMXXIV (Iya sebanyak itu), **Sriwijaya** membuat dua kotanya menjadi web server yaitu **Tanjungkulai**, dan **Bedahulu**, serta **Sriwijaya** sendiri akan menjadi DNS Master. Kemudian karena merasa terdesak, **Majapahit** memberikan bantuan dan menjadikan kerajaannya (**Majapahit**) menjadi **DNS Slave**.
 ### Nusantara (Router)
 
 ```
@@ -163,6 +163,7 @@ iface eth0 inet static
 ```
 
 ## Soal 2
+Karena para pasukan membutuhkan koordinasi untuk melancarkan serangannya, maka buatlah sebuah domain yang mengarah ke **Solok** dengan alamat **sudarsana.xxxx.com** dengan alias **www.sudarsana.xxxx.com**, dimana **xxxx** merupakan kode kelompok. Contoh: **sudarsana.it01.com**.
 
 ### Script Solok (sudarsana.it24.com)
 
