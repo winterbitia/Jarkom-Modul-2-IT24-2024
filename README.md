@@ -20,6 +20,7 @@
 - [Soal 11](#soal-11)
 - [Soal 12](#soal-12)
 - [Soal 13](#soal-13)
+- [Soal 14](#soal-14)
 
 ## Script Umum
 
@@ -658,20 +659,13 @@ echo '
 </VirtualHost>
 ' > /etc/apache2/sites-available/pasopati.it24.com.conf
 
-mkdir -p /var/www/pasopati.it24.com
-
 a2ensite pasopati.it24.com.conf
 
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
 
 unzip lb.zip -d lb
-
-mv lb/* /var/www/pasopati.it24.com
-
-cp /var/www/pasopati.it24.com/worker/index.php /var/www/pasopati.it24.com/index.php
-
-cp /var/www/pasopati.it24.com/index.php /var/www/html/index.php
 rm /var/www/html/index.html
+cp lb/worker/index.php /var/www/html/index.php
 
 service apache2 restart
 ```
@@ -709,7 +703,7 @@ echo nameserver 192.168.122.1 > /etc/resolv.conf
 service apache2 restart
 ```
 
-### Script Web Server (web.sh)
+### Script Web Server (web-apache.sh)
 
 ```sh
 echo nameserver 192.168.122.1 > /etc/resolv.conf
@@ -724,4 +718,18 @@ rm /var/www/html/index.html
 cp lb/worker/index.php /var/www/html/index.php
 
 service apache2 restart
+```
+
+## Soal 14
+
+### Script Web Server (web-nginx.sh)
+
+```sh
+
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt update
+apt install nginx php-fpm -y
+
+echo fill in the blanks
 ```
