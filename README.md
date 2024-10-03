@@ -827,7 +827,7 @@ Markas pusat meminta **laporan hasil benchmark** dengan menggunakan apache bench
 - Analisis
 - Meme terbaik kalian (terserah ( ͡° ͜ʖ ͡°)) 🤓
 
-Untuk mencari algoritma terbaik bisa dilihat disini: [Mencari Algoritma Terbaik](https://github.com/rreichi/load-balancing_method)
+Untuk mencari algoritma terbaik bisa dilihat disini: [Mencari Algoritma Terbaik](best-algorithm.md)
 
 ### Laporan Benchmark
 
