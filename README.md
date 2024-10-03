@@ -848,3 +848,5 @@ service nginx restart
 #### IP Hash
 ![IP-Hash](assets/gallery/ip_hash.png)
 
+### Analisis
+**Least Connection** memberikan performa jauh lebih baik dengan jumlah gagal paling sedikit, transfer rate tertinggi, dan waktu respon paling cepat, karena mendistribusikan beban berdasarkan jumlah koneksi aktif pada server. 
