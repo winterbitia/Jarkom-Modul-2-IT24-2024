@@ -819,8 +819,8 @@ apt update
 apt install nginx -y
 
 echo '
-#load-balancer method
 upstream webserver  {
+    #load-balancer method
     server 192.245.1.3;
     server 192.245.1.4;
     server 192.245.2.3;
