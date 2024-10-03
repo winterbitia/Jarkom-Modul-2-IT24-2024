@@ -738,15 +738,20 @@ service apache2 restart
 Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya **diubah menjadi nginx.
 ### Script Web Server (web-nginx.sh)
 
+Hanya jalankan ini di .bashrc ketika tidak ingin apache
+
 ```sh
 apt update
-apt install nginx php-fpm -y
+apt install nginx php php-fpm -y
+
+mkdir -p /var/www/jarkom
+cp /var/www/html/index.php /var/www/jarkom/index.php
 
 echo '
 server {
     listen 80;
 
-    root /var/www/html;
+    root /var/www/jarkom;
 
     index index.php index.html index.htm;
     server_name _;
@@ -768,20 +773,24 @@ server {
     error_log /var/log/nginx/jarkom_error.log;
     access_log /var/log/nginx/jarkom_access.log;
 }
-' > /etc/nginx/sites-available/html
+' > /etc/nginx/sites-available/jarkom
 
-ln -s /etc/nginx/sites-available/html /etc/nginx/sites-enabled/html
+ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled/jarkom
 rm -rf /etc/nginx/sites-enabled/default
 
+service apache2 stop
 service nginx restart
-service php7.0-fpm restart
+service php7.0-fpm stop
+service php7.0-fpm start
 ```
 
 ### Script Load Balancer Solok (Nginx)
 
+Hanya jalankan ini di .bashrc ketika tidak ingin apache
+
 ```sh
 apt update
-apt install nginx -y
+apt install bind9 nginx -y
 
 echo '
 upstream webserver  {
