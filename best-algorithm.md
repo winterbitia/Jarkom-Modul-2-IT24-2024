@@ -7,7 +7,9 @@ apt install nginx -y
 
 echo '
 upstream webserver  {
-    #load-balancing method
+    # defaultnya round robin
+    # least_conn;
+    # ip_hash;
     server 192.245.1.3;
     server 192.245.1.4;
     server 192.245.2.3;
