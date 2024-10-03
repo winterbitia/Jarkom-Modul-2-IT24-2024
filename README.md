@@ -19,6 +19,7 @@
 - [Soal 10](#soal-10)
 - [Soal 11](#soal-11)
 - [Soal 12](#soal-12)
+- [Soal 13](#soal-13)
 
 ## Script Umum
 
@@ -625,3 +626,54 @@ zone "rujapala.it24.com" {
 ![ping google.com](assets/gallery/11_1.png)
 
 ## Soal 12
+
+### Modifikasi pada Client script
+
+```sh
+echo nameserver 192.245.1.1 > /etc/resolv.conf # Master
+echo nameserver 192.245.2.1 >> /etc/resolv.conf # Slave
+apt update
+apt install dnsutils -y
+apt install lynx -y
+echo End of script
+```
+
+### Script di Kotalingga
+
+```sh
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt update
+apt install apache2 libapache2-mod-php7.0 php wget unzip -y
+
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/pasopati.it24.com.conf
+
+echo '
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/pasopati.it24.com
+    ServerName pasopati.it24.com
+    ServerAlias www.pasopati.it24.com
+</VirtualHost>
+' > /etc/apache2/sites-available/pasopati.it24.com.conf
+
+mkdir -p /var/www/pasopati.it24.com
+
+a2ensite pasopati.it24.com.conf
+
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
+
+unzip lb.zip -d lb
+
+mv lb/* /var/www/pasopati.it24.com
+
+cp /var/www/pasopati.it24.com/worker/index.php /var/www/pasopati.it24.com/index.php
+
+cp /var/www/pasopati.it24.com/index.php /var/www/html/index.php
+rm /var/www/html/index.html
+
+service apache2 restart
+```
+
+## Soal 13
+
