@@ -955,7 +955,7 @@ server {
     listen 80 default_server;
     server_name 192.245.3.1;
 
-    return 301 http://www.solok.it24.com:31400;
+    return 301 http://www.solok.it24.com;
 }
 
 server {
