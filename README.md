@@ -845,6 +845,6 @@ service nginx restart
 ![Round-Robin](assets/gallery/rr.png)
 #### Least Connections
 ![Least-Conn](assets/gallery/lconn.png)
-#### IP_Hash
+#### IP Hash
 ![IP-Hash](assets/gallery/ip_hash.png)
 
