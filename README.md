@@ -842,4 +842,4 @@ service nginx restart
 ```
 
 #### Round Robin
-![Anusapati](assets/gallery/rr.png.png)
+![Round-Robin](assets/gallery/rr.png)
