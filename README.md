@@ -736,6 +736,11 @@ service apache2 restart
 
 ## Soal 14
 Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya **diubah menjadi nginx.
+
+### Catatan Mengenai Service
+
+Dikarenakan penggunaan service nginx memerlukan untuk mematikan service apache, maka ditambahkan command `service apache stop` dan `service nginx stop` pada script yang bersangkutan. Sehingga, bila ingin kembali ke apache/nginx hanya perlu menjalankan script sesuai keperluan.
+
 ### Script Web Server (web-nginx.sh)
 
 Hanya jalankan ini di .bashrc ketika tidak ingin apache
@@ -823,3 +828,185 @@ Markas pusat meminta **laporan hasil benchmark** dengan menggunakan apache bench
 - Meme terbaik kalian (terserah ( ͡° ͜ʖ ͡°)) 🤓
 
 Untuk mencari algoritma terbaik bisa dilihat disini: [Mencari Algoritma Terbaik](https://github.com/rreichi/load-balancing_method)
+
+### Script Load Balancer Solok (Nginx)
+```sh
+apt update
+apt install nginx -y
+
+echo '
+upstream webserver  {
+    #load-balancer method
+    server 192.245.1.3;
+    server 192.245.1.4;
+    server 192.245.2.3;
+}
+
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://webserver;
+    }
+}' > /etc/nginx/sites-available/solok
+
+ln -s /etc/nginx/sites-available/solok /etc/nginx/sites-enabled/solok
+rm /etc/nginx/sites-enabled/default
+
+service apache2 stop
+service nginx restart
+```
+
+#### Round Robin
+![Round-Robin](assets/gallery/rr.png)
+#### Least Connections
+![Least-Conn](assets/gallery/lconn.png)
+#### IP Hash
+![IP-Hash](assets/gallery/ip_hash.png)
+
+### Analisis
+**Least Connections** terbukti memberikan performa terbaik dengan jumlah *failed request* paling sedikit, *transfer rate* tertinggi, dan *time per request* paling cepat, karena algoritma ini mendistribusikan beban berdasarkan jumlah koneksi aktif di server. **Round Robin** menunjukkan performa yang cukup baik, namun masih kalah dalam menangani beban yang tidak merata dibandingkan **Least Connections**. Sementara, **IP Hash** menghasilkan performa terburuk dengan tingkat kegagalan tertinggi dan waktu respon paling lambat, menunjukkan bahwa algoritma ini kurang ideal untuk lingkungan dengan beban dinamis.
+
+## Soal 16
+
+### Script untuk Domain Solok 
+
+```sh
+echo 'zone "solok.it24.com" {
+    type master;
+    notify yes;
+    file "/etc/bind/jarkom/solok.it24.com";
+};' >> /etc/bind/named.conf.local
+
+cp /etc/bind/db.local /etc/bind/jarkom/solok.it24.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     solok.it24.com. root.solok.it24.com. (
+                        2024100201      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      solok.it24.com.
+@       IN      A       192.245.3.1     ; IP Solok
+www     IN      CNAME   solok.it24.com.' > /etc/bind/jarkom/solok.it24.com
+
+service bind9 restart
+```
+
+## Soal 17
+
+### Modifikasi Script Load Balancer Solok (Nginx)
+
+```sh
+apt update
+apt install nginx -y
+
+echo '
+upstream webserver  {
+    least_conn;
+    server 192.245.1.3;
+    server 192.245.1.4;
+    server 192.245.2.3;
+}
+
+server {
+  listen 31400;
+  server_name solok.it24.com www.solok.it24.com;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}
+
+server {
+  listen 4697;
+  server_name solok.it24.com www.solok.it24.com;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}
+
+server {
+  listen 8082;
+  listen 8083;
+  listen 8084;
+  server_name 192.245.3.1;
+
+  return 404;
+}
+' > /etc/nginx/sites-available/solok
+
+ln -s /etc/nginx/sites-available/solok /etc/nginx/sites-enabled/solok
+rm /etc/nginx/sites-enabled/default
+
+service apache2 stop
+service nginx restart
+```
+
+## Soal 18
+
+### Modifikasi Script Load Balancer Solok (Nginx)
+
+```sh
+apt update
+apt install nginx -y
+
+echo '
+upstream webserver  {
+    least_conn;
+    server 192.245.1.3;
+    server 192.245.1.4;
+    server 192.245.2.3;
+}
+
+server {
+  listen 31400;
+  server_name solok.it24.com www.solok.it24.com;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}
+
+server {
+  listen 4697;
+  server_name solok.it24.com www.solok.it24.com;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}
+
+server {
+    listen 80 default_server;
+    server_name 192.245.3.1;
+
+    return 301 http://www.solok.it24.com:31400;
+}
+
+server {
+  listen 8082;
+  listen 8083;
+  listen 8084;
+  server_name 192.245.3.1;
+
+  return 404;
+}
+' > /etc/nginx/sites-available/solok
+
+ln -s /etc/nginx/sites-available/solok /etc/nginx/sites-enabled/solok
+rm /etc/nginx/sites-enabled/default
+
+service apache2 stop
+service nginx restart
+```
+
+## Soal 19
