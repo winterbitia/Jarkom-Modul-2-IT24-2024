@@ -29,6 +29,10 @@
 - [Soal 19](#soal-19)
 - [Soal 20](#soal-20)
 
+## Topologi
+
+![Topologi](assets/gallery/topo.png)
+
 ## Script Umum
 
 ### Nusantara (Router)
@@ -836,6 +840,8 @@ Untuk mencari algoritma terbaik bisa dilihat disini: [Mencari Algoritma Terbaik]
 
 ## Soal 16
 
+Karena dirasa kurang aman dari brainrot karena masih memakai IP, markas ingin akses ke Solok memakai solok.xxxx.com dengan alias www.solok.xxxx.com (sesuai web server terbaik hasil analisis kalian).
+
 ### Script untuk Domain Solok 
 
 ```sh
@@ -867,6 +873,8 @@ service bind9 restart
 ```
 
 ## Soal 17
+
+Agar aman, buatlah konfigurasi agar solok.xxx.com hanya dapat diakses melalui port sebesar π x 10^4 = (phi nya desimal) dan 2000 + 2000 log 10 (10) +700 - π = ?.
 
 ### Modifikasi Script Load Balancer Solok (Nginx)
 
@@ -918,6 +926,9 @@ service nginx restart
 ```
 
 ## Soal 18
+
+Apa bila ada yang mencoba mengakses IP solok akan secara otomatis dialihkan ke www.solok.xxxx.com.
+
 
 ### Modifikasi Script Load Balancer Solok (Nginx)
 
@@ -977,7 +988,9 @@ service nginx restart
 
 ## Soal 19
 
-Mengetahui bahwa Bedahulu memiliki benchmark terbaik, maka kami memilih untuk membuat akses direktori listing di dalam web server tersebut.
+Karena probset sudah kehabisan ide masuk ke salah satu worker buatkan akses direktori listing yang mengarah ke resource worker2.
+
+**Notes**: Mengetahui bahwa Bedahulu memiliki benchmark terbaik, maka kami memilih untuk membuat akses direktori listing di dalam web server tersebut. Dan karena kendala dari penetapan lokasi dirlisting, diperlukan penambahan `/dirlisting` pada akhir penulisan link.
 
 ## Script Directory Listing Bedahulu
 
@@ -994,7 +1007,7 @@ server {
     root /var/www/jarkom;
     index index.php index.html index.htm;
 
-    location / {
+    location /dirlisting {
         alias /var/www/jarkom/dirlisting/worker2;
         autoindex on;
         autoindex_exact_size off;
@@ -1011,6 +1024,10 @@ service nginx restart
 ```
 
 ## Soal 20
+
+Worker tersebut harus dapat di akses dengan sekiantterimakasih.xxxx.com dengan alias www.sekiantterimakasih.xxxx.com.
+
+## Script Bedahulu (sekianterimakasih.it24.com)
 
 ```sh
 echo 'zone "sekianterimakasih.it24.com" {
